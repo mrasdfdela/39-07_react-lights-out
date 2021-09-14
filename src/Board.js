@@ -90,6 +90,20 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
 
   // if the game is won, just show a winning msg & render nothing else
 
+  function createCells(row, yCoord){
+    const rows = row.map((col, xCoord) => {
+          let coord = `${yCoord}-${xCoord}`;
+          return (
+            <Cell
+              flipCellsAroundMe={() => flipCellsAround(coord)}
+              isLit={col}
+              key={coord}
+            />
+          );
+        });
+    return <tr key={yCoord}>{rows}</tr>
+  }
+  
   // TODO
   if (hasWon()) {
     return (
@@ -101,23 +115,7 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
     return (
       <table key={"board"}>
         <tbody>
-          {board.map((row, y) => {
-            return (
-              <tr>
-                {row.map((col, x) => {
-                  let coord = `${y}-${x}`;
-                  // console.log(coord);
-                  return (
-                    <Cell
-                      flipCellsAroundMe={ () => flipCellsAround(coord) }
-                      isLit={col}
-                      key={coord}
-                    />
-                  );
-                })}
-              </tr>
-            );
-          })}
+          { board.map((row, y) => createCells(row, y)) }
         </tbody>
       </table>
     );
