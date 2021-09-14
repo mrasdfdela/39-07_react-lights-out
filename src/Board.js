@@ -84,7 +84,7 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
       });
 
       // TODO: return the copy
-      setBoard(newBoard);
+      return newBoard;
     });
   }
 
@@ -99,24 +99,28 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
     )
   } else {
     return (
-      <div>
-        { board.map( (row) =>{
-          return (
-            <tr>
-              {
-                (
-                  row.map( (isLit) => {
-                    return (
-                      <Cell flipCellsAroundMe={flipCellsAround} isLit={isLit} />
-                    );
-                  })
-                )
-              }
-            </tr>
-          )
-        })}
-      </div>
-    )
+      <table key={"board"}>
+        <tbody>
+          {board.map((row, y) => {
+            return (
+              <tr>
+                {row.map((col, x) => {
+                  let coord = `${y}-${x}`;
+                  // console.log(coord);
+                  return (
+                    <Cell
+                      flipCellsAroundMe={ () => flipCellsAround(coord) }
+                      isLit={col}
+                      key={coord}
+                    />
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
   }
 
   // TODO
