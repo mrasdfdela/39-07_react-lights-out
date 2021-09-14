@@ -46,7 +46,6 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
       }
       initialBoard.push(row);
     }
-
     return initialBoard;
   }
 
@@ -101,17 +100,19 @@ function Board({ nrows=5, ncols=5, chanceLightStartsOn=0.5 }) {
   } else {
     return (
       <div>
-        { board.forEach( (row) =>{
+        { board.map( (row) =>{
           return (
-          <tr> 
-            {
-              row.forEach( (tile)=>{
-                <td>
-                  <Cell flipCellsAroundMe={flipCellsAround} isLit={tile} />
-                </td>;
-              })
-            }
-          </tr>
+            <tr>
+              {
+                (
+                  row.map( (isLit) => {
+                    return (
+                      <Cell flipCellsAroundMe={flipCellsAround} isLit={isLit} />
+                    );
+                  })
+                )
+              }
+            </tr>
           )
         })}
       </div>
